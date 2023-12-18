@@ -1,0 +1,17 @@
+/*
+// Copyright (C) 2023 Bovination Productions, MIT License
+*/
+:root {
+  --green: #02154E;
+  --red: red;
+  --yellow: #D61233;
+  --gray: gray;
+  --orange: #ed9121;
+  --blue: #04d9ff;
+  --white: black;
+  --black: #aaaaaa;
+}
+
+.letter-box {
+  font-family: "Gill Sans", Verdana, Helvetica, sans-serif;
+}

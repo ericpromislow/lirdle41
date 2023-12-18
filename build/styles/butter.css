@@ -1,0 +1,18 @@
+/*
+// Copyright (C) 2023 Bovination Productions, MIT License
+*/
+:root {
+  --green: #6EBE3B;
+  --red: purple;
+  --yellow: #FEE774;
+  --gray: #ddd;
+  --orange: #ed9121;
+  --blue: #005581;
+  --white: white;
+  --black: black;
+}
+
+.letter-box {
+  font-family: "Futura BQ Bold Condensed", "Futura BQ Bold", "Futura BQ", Futura, Verdana, Helvetica, sans-serif;
+  color: #ec1e32; /* #D72137; */
+}
