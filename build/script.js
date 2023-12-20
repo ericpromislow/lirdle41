@@ -6,24 +6,7 @@ import Model from './model.js';
 let view = null;
 let model = view;
 
-function afdCheck() {
-    // console.log('in afdCheck ...');
-    // console.table(location);
-    const date = new Date();
-    if (date.getMonth() !== 3 || date.getDate() !== 1) {
-    //if (date.getMonth() !== 11 || date.getDate() !== 19) {
-        const url = location.href;
-        const url2 = url.replace('41', '');
-        if (url2 === url) {
-            return;
-        }
-        // console.log(`Fixed url: <${ url }>`);
-        window.location.href = url2;
-    }
-}
-
 function initialize() {
-    afdCheck();
     view = new View();
     model = new Model(view);
     view.setModel(model);

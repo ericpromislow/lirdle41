@@ -177,9 +177,22 @@ View.prototype = {
 
         allDone.classList.remove('hidden');
         allDone.classList.add('show');
+        const date = new Date();
+        const isAFD = (date.getMonth() === 3 && date.getDate() === 1);
+        // const isAFD = (date.getMonth() === 11 && date.getDate() === 20);
         allDone.querySelectorAll('h2.hidden').forEach((node) => {
-            node.classList.remove('hidden');
-            node.classList.add('show');
+            let reveal = false;
+            if (node.classList.contains('afd')) {
+                reveal = isAFD;
+            } else if (node.classList.contains('not-afd')) {
+                reveal = !isAFD;
+            } else {
+                reveal = true;
+            }
+            if (reveal) {
+                node.classList.remove('hidden');
+                node.classList.add('show');
+            }
         })
     },
     /**
