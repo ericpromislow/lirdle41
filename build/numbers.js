@@ -34,16 +34,17 @@ export function getWordNumber(dateNumber) {
         const today = new Date();
         let origWordsLength = WORDS.length;
         let origPositionsLength = POSITIONS.length;
-        // if (today.getMonth() === 3 && today.getDate() === 1) {
-        if (today.getMonth() === 11 && today.getDate() === 17) {
+        //if (today.getMonth() === 11 && today.getDate() === 17) {
+        if (today.getMonth() === 3 && today.getDate() === 1) {
             const yr = today.getFullYear() - 2024 + origWordsLength;
             if (!fixedList) {
                 fixedList = true;
-                WORDS.push('pwned', 'hygge', 'moops');
-                POSITIONS.push(origWordsLength, origWordsLength + 1, origWordsLength + 2);
+                WORDS.push('pwned', 'hygge', 'moops', 'byrds');
+                POSITIONS.push(origWordsLength, origWordsLength + 1,
+			       origWordsLength + 2, origWordsLength + 3);
             } else {
-                origWordsLength -= 2;
-                origPositionsLength -= 2;
+                origWordsLength -= 4;
+                origPositionsLength -= 4;
             }
             if (POSITIONS[yr] && WORDS[yr]) {
                 return yr;
