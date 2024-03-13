@@ -511,6 +511,9 @@ View.prototype = {
             let intervalPID = 0;
             const fetchFunc = () => {
                 fetch(`stats/day${pad(currentDateNumber, 4, '0')}.json`).then((response) => {
+                    if (response.status != 200) {
+                        throw new Error(`Can't get yesterday's stats: ${ response.status }: ${ response.statusText }`);
+                    }
                     return response.json();
                 }).then((data) => {
                     const fractionFinished = (data.finished * 1.0) / data.started;
@@ -545,7 +548,10 @@ View.prototype = {
         const fetchFunc = () => {
             fetch(`stats/day${pad(currentDateNumber, 4, '0')}.json`)
             .then((response) => {
-                return response.json();
+                    if (response.status != 200) {
+                        throw new Error(`Can't get today's stats: ${ response.status }: ${ response.statusText }`);
+                    }
+                    return response.json();
             }).then((data) => {
                 if (data.finished === 0) {
                     // We've got an early finisher, so assume their result hasn't been picked up yet.
@@ -570,7 +576,7 @@ View.prototype = {
                     clearInterval(intervalPID);
                 }
             });
-	    };
+        };
         fetchFunc();
         intervalPID = setInterval(fetchFunc, 10 * 60000);
     },
@@ -642,15 +648,14 @@ View.prototype = {
         }
     },
     initializeTheme(theme) {
+        let mainTheme = new URLSearchParams(window.location.search).get('mainTheme')
+        if (mainTheme) {
+            theme = mainTheme;
+        }
         document.querySelector('#theme-select').value = theme;
         if (theme !== 'classic') {
             this.changeTheme(theme);
-        } else {
-	    var mainTheme = new URLSearchParams(window.location.search).get('mainTheme')
-	    if (mainTheme) {
-		this.changeTheme(theme);
-	    }
-	}
+        }
     },
     changeThemeHandler(e) {
         const value = e.target.value;
