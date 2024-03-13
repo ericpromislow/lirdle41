@@ -156,7 +156,7 @@ View.prototype = {
         const msg = `You got it in ${ guessCount } guess${ guessCount > 1 ? 'es' : ''}!`;
         const result = document.getElementById('result');
         if (!result) {
-            console.log(`Can't find result div`);
+            console.log(`Can't find result div`); //'
             setTimeout(() => {
                 alert(msg);
             }, 1000);
@@ -368,7 +368,7 @@ View.prototype = {
                 elt.classList.add('hidden');
             }, 10 * 1000);
         } else {
-            console.log(`Can't find a "fiveGreenFakeOut" element.`);
+            console.log(`Can't find a "fiveGreenFakeOut" element.`); //'
         }
     },
 
@@ -645,12 +645,17 @@ View.prototype = {
         document.querySelector('#theme-select').value = theme;
         if (theme !== 'classic') {
             this.changeTheme(theme);
-        }
+        } else {
+	    var mainTheme = new URLSearchParams(window.location.search).get('mainTheme')
+	    if (mainTheme) {
+		this.changeTheme(theme);
+	    }
+	}
     },
     changeThemeHandler(e) {
         const value = e.target.value;
         if (!['brainerd', 'butter', 'classic', 'dark', 'distractle', 'frikadeller', 'louisiana', 'pink', 'tommy'].includes(value)) {
-            console.log(`Can't process theme ${ value }`);
+            console.log(`Can't process theme ${ value }`);//'
             return;
         }
         this.changeTheme(value);
