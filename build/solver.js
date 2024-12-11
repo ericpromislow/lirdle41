@@ -35,7 +35,7 @@ export function evalPossibleWords(guess, scores, currentWordList) {
     const possibleWords = {};
     const lim = currentWordList.length;
     if (lim === 1 && currentWordList[0] === guess) {
-        // This is needed when restarting, so it doesn't reject 2-2-2-2-2 on the final word
+        // This is needed when restarting so it doesn't reject 2-2-2-2-2 on the final word
         return [guess];
     }
     for (let i = 0; i < lim; i++) {

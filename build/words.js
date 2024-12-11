@@ -3708,6 +3708,7 @@ export const OTHERWORDS = [
   'bydes',
   'byked',
   'bykes',
+  'byrds',
   'byres',
   'byrls',
   'byssi',

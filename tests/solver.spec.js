@@ -1,6 +1,8 @@
 import { evalPossibleWords, evaluateGuess, getSolverData, scoreMakesSense, updateSolver } from "../build/solver.js";
 import { WORDS } from "../build/words";
 
+// To make the lirdle41 tests similar to the lirdle tests, replace a likely letter with a q, x, or z
+
 describe('solver tests', () => {
     describe('evaluate guess', () => {
         test('can handle duplicate letters', () => {
@@ -12,16 +14,16 @@ describe('solver tests', () => {
         const currentWordList = ['taste', 'waste', 'wedge', 'llama', 'mango'];
         describe('evalPossibleWords', () => {
             test('green i should fail', () => {
-                expect(evalPossibleWords('rinse', [1, 2, 1, 1, 0], currentWordList)).toEqual([]);
+                expect(evalPossibleWords('rqnse', [1, 2, 1, 1, 0], currentWordList)).toEqual([]);
             });
             test('s, e are green but the a is black', () => {
-                let words = evalPossibleWords('basge', [0, 0, 2, 0, 2], currentWordList);
+                let words = evalPossibleWords('bqsge', [0, 0, 2, 0, 2], currentWordList);
                 expect(words).toEqual(['taste', 'waste']);
-                words = evalPossibleWords('basue', [0, 0, 2, 0, 2], currentWordList);
-                expect(words).toEqual(['taste', 'waste', 'wedge']);
+                words = evalPossibleWords('azsue', [1, 0, 2, 0, 2], currentWordList);
+                expect(words).toEqual(['taste', 'waste']);
             });
             test('only an l and an m', () => {
-                let words = evalPossibleWords('xmgle', [0, 1, 1, 1, 0], currentWordList);
+                let words = evalPossibleWords('xmjze', [0, 1, 0, 0, 0], currentWordList);
                 expect(words).toEqual(['llama', 'mango']);
             });
         });
@@ -37,27 +39,35 @@ describe('solver tests', () => {
                     level: 0,
                     possibleWords: currentWordList,
                     possibleWordCounts: [],
+		    remainingWords: [],
                 });
                 // ['taste', 'waste', 'wedge', 'llama', 'mango'];
 
                 guesses.push('quick');
-                scores.push([2, 0, 0, 0, 0]);
+                scores.push([0, 0, 0, 0, 0]);
                 updateSolver(guesses,scores, solverData);
                 expect(solverData).toEqual({
                     level: 1,
                     possibleWords: currentWordList,
                     possibleWordCounts: [currentWordList.length],
+		    remainingWords: [
+			['taste', 'waste', 'wedge', 'llama', 'mango'],
+		    ],
                 });
                 expect(solverData.level).toBe(1);
                 expect(solverData.possibleWords.length).toBe(currentWordList.length);
 
-                guesses.push('fixqa');
-                scores.push([0, 0, 0, 0, 0]);
+                guesses.push('fixaq');
+                scores.push([0, 0, 0, 1, 0]);
                 updateSolver(guesses,scores, solverData);
                 expect(solverData).toEqual({
                     level: 2,
                     possibleWords: ['taste', 'waste', 'llama', 'mango'],
                     possibleWordCounts: [5, 4],
+		    remainingWords: [
+			['taste', 'waste', 'wedge', 'llama', 'mango'],
+			['taste', 'waste', 'llama', 'mango'],
+		    ],
                 });
 
                 guesses.push('abmdc');
@@ -67,15 +77,26 @@ describe('solver tests', () => {
                     level: 3,
                     possibleWords: ['llama', 'mango'],
                     possibleWordCounts: [5, 4, 2],
+		    remainingWords: [
+			['taste', 'waste', 'wedge', 'llama', 'mango'],
+			['taste', 'waste', 'llama', 'mango'],
+			['llama', 'mango'],
+		    ],
                 });
 
                 guesses.push('alarm');
-                scores.push([1, 1, 2, 0, 1]);
+                scores.push([1, 2, 2, 0, 1]);
                 updateSolver(guesses,scores, solverData);
                 expect(solverData).toEqual({
                     level: 4,
                     possibleWords: ['llama'],
                     possibleWordCounts: [5, 4, 2, 1],
+		    remainingWords: [
+			['taste', 'waste', 'wedge', 'llama', 'mango'],
+			['taste', 'waste', 'llama', 'mango'],
+			['llama', 'mango'],
+			['llama'],
+		    ],
                 });
             });
         });
