@@ -79,5 +79,6 @@ export function scoreMakesSense(guess, candidateWord, scores) {
     if (thisScores.length !== scores.length) {
         throw new Error(`Doesn't make sense: expected ${ scores.length } scores, got ${ thisScores.length }`)
     }
+    // This will be different from base lirdle because everything must agree
     return thisScores.filter((elt, i) => { return elt !== scores[i] }).length === 0;
 }
