@@ -170,7 +170,7 @@ View.prototype = {
     showAllDone() {
         const allDone = document.getElementById('alldone');
         if (!allDone) {
-            console.log(`Can't find div alldone`);
+            console.log(`Can't find div alldone`);//'
             setTimeout(() => {
                 alert(msg);
             }, 1000);
@@ -244,8 +244,12 @@ View.prototype = {
 
     showMatchedWords(event, i, numLeftAmount) {
         const solverData = this.model.solverData;
+	if (!solverData.remainingWords) {
+            console.log("Error: no solverData.remainingWords");
+            return;
+        }
         if (i >= solverData.remainingWords.length) {
-            console.log(`Error: can't find row ${i} out of ${solverData.remainingWords.length}`);
+            console.log(`Error: can't find row ${i} out of ${solverData.remainingWords.length}`);//'
             return;
         }
         const targetWord = this.model.targetString;

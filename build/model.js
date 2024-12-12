@@ -88,7 +88,7 @@ Model.prototype = {
             const stats = JSON.parse(localStorage.getItem('stats'));
             this.stats.initialize(stats);
         } catch(e) {
-            console.log(`Couldn't read stats: ${ e }`);
+            console.log(`Couldn't read stats: ${ e }`); //')
             this.stats.initialize(null);
         }
         const savedState = JSON.parse(localStorage.getItem('saveableState'));
@@ -332,10 +332,14 @@ Model.prototype = {
                 this.view.showHitFakeOut(); //TODO: Implement
             }
             //const t1 = (new Date()).valueOf();
+	    try {
             updateSolver(this.saveableState.guessWords, this.saveableState.scores, this.solverData);
             this.view.showOrHideNumLeftForRow(this.prefs.showNumLeft, this.solverData.level - 1);
             this.view.updateShowNumLeft(this.prefs.showNumLeft, this.solverData.level - 1, this.solverData.possibleWords.length);
-            doFetch('guess', { date: this.saveableState.date, count: this.guessCount, numLeft: this.solverData.possibleWords.length });
+		doFetch('guess', { date: this.saveableState.date, count: this.guessCount, numLeft: this.solverData.possibleWords.length });
+	    } catch(ex) {
+		console.log(`lirdle41: Ignorable error: ${ex}`);
+	    }
             // const t2 = (new Date()).valueOf();
             // console.log(`calc time: ${ t2 - t1 } msec`)
         }
@@ -464,7 +468,7 @@ Model.prototype = {
                     return EMOJI_COLORS[scores[i][j]];
                 }
             });
-            if (i < scores.length - 1) {
+            if (i < scores.length - 1 && this.solverData.possibleWordCounts) {
                 emojiBits.push(' - ', this.solverData.possibleWordCounts[i]);
             }
             return emojiBits.join('');
@@ -484,7 +488,7 @@ Model.prototype = {
     },
     updateShowNumLeftStatus(showNumLeft) {
         const sd = this.solverData;
-        if (sd.possibleWordCounts.length === 0) {
+        if (!sd || !sd.possibleWordCounts || sd.possibleWordCounts.length === 0) {
             return;
         }
         this.prefs.showNumLeft = showNumLeft;
