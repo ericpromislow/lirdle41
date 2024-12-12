@@ -71,7 +71,7 @@ describe('solver tests', () => {
                 });
 
                 guesses.push('abmdc');
-                scores.push([0, 0, 1, 0, 0]);
+                scores.push([1, 0, 1, 0, 0]);
                 updateSolver(guesses,scores, solverData);
                 expect(solverData).toEqual({
                     level: 3,
@@ -107,7 +107,7 @@ describe('solver tests', () => {
             test('abhor parer test 1', () => {
                 const scores = evaluateGuess('abhor', 'parer');
                 expect(scores).toEqual([0, 1, 0, 0, 2]);
-                const wordList2 = evalPossibleWords('parer', [0, 0, 1, 0, 0], currentWordList)
+                const wordList2 = evalPossibleWords('parer', [0, 1, 1, 0, 0], currentWordList)
                 expect(wordList2).toEqual(['urban']);
             });
             it('loops through', () => {
@@ -116,7 +116,7 @@ describe('solver tests', () => {
                 expect(scoreMakesSense('parer', 'abhor', scores)).toBeFalsy();
                 expect(scoreMakesSense('parer', 'abhor', [0,0,0,0,0])).toBeFalsy();
                 expect(scoreMakesSense('parer', 'abhor', [0,0,0,0,1])).toBeFalsy();
-                expect(scoreMakesSense('parer', 'abhor', [0,0,0,0,2])).toBeTruthy();
+                expect(scoreMakesSense('parer', 'abhor', [0,0,0,0,2])).toBeFalsy();
                 expect(scoreMakesSense('parer', 'abhor', [0,0,0,1,0])).toBeFalsy();
                 expect(scoreMakesSense('parer', 'abhor', [0,0,0,1,1])).toBeFalsy();
                 expect(scoreMakesSense('parer', 'abhor', [0,0,0,1,2])).toBeFalsy();
@@ -124,7 +124,8 @@ describe('solver tests', () => {
                 expect(scoreMakesSense('parer', 'abhor', [0,0,0,2,1])).toBeFalsy();
                 expect(scoreMakesSense('parer', 'abhor', [0,0,0,2,2])).toBeFalsy();
                 expect(scoreMakesSense('parer', 'abhor', [0,0,0,0,0])).toBeFalsy();
-                expect(scoreMakesSense('parer', 'abhor', [0,1,0,0,0])).toBeTruthy();
+                expect(scoreMakesSense('parer', 'abhor', [0,1,0,0,0])).toBeFalsy();
+                expect(scoreMakesSense('parer', 'abhor', [0,1,0,0,2])).toBeTruthy();
                 expect(scoreMakesSense('parer', 'abhor', [0,2,0,0,0])).toBeFalsy();
                 expect(scoreMakesSense('parer', 'abhor', [0,0,1,0,0])).toBeFalsy();
                 expect(scoreMakesSense('parer', 'abhor', [0,1,1,0,0])).toBeFalsy();
@@ -132,29 +133,22 @@ describe('solver tests', () => {
                 expect(scoreMakesSense('parer', 'abhor', [0,0,2,0,0])).toBeFalsy();
                 expect(scoreMakesSense('parer', 'abhor', [0,1,2,0,0])).toBeFalsy();
                 expect(scoreMakesSense('parer', 'abhor', [0,2,2,0,0])).toBeFalsy();
-                expect(scoreMakesSense('parer', 'abhor', [0,1,0,0,2])).toBeFalsy();
                 // Now the only possible truthers
-                expect(scoreMakesSense('parer', 'abhor', [0,1,0,0,0])).toBeTruthy();
-                expect(scoreMakesSense('parer', 'abhor', [0,1,0,0,1])).toBeTruthy();
-                expect(scoreMakesSense('parer', 'abhor', [0,1,0,1,2])).toBeTruthy();
-                expect(scoreMakesSense('parer', 'abhor', [0,1,0,2,2])).toBeTruthy();
-                expect(scoreMakesSense('parer', 'abhor', [0,1,1,0,2])).toBeTruthy();
-                expect(scoreMakesSense('parer', 'abhor', [0,1,2,0,2])).toBeTruthy();
-                expect(scoreMakesSense('parer', 'abhor', [0,0,0,0,2])).toBeTruthy();
-                expect(scoreMakesSense('parer', 'abhor', [0,2,0,0,2])).toBeTruthy();
-                expect(scoreMakesSense('parer', 'abhor', [1,1,0,0,2])).toBeTruthy();
-                expect(scoreMakesSense('parer', 'abhor', [2,1,0,0,2])).toBeTruthy();
+                expect(scoreMakesSense('parer', 'abhor', [0,1,0,0,0])).toBeFalsy();
+                expect(scoreMakesSense('parer', 'abhor', [0,1,0,0,1])).toBeFalsy();
+                expect(scoreMakesSense('parer', 'abhor', [0,1,0,1,2])).toBeFalsy();
+                expect(scoreMakesSense('parer', 'abhor', [0,1,0,2,2])).toBeFalsy();
+                expect(scoreMakesSense('parer', 'abhor', [0,1,1,0,2])).toBeFalsy();
+                expect(scoreMakesSense('parer', 'abhor', [0,1,2,0,2])).toBeFalsy();
+                expect(scoreMakesSense('parer', 'abhor', [0,0,0,0,2])).toBeFalsy();
+                expect(scoreMakesSense('parer', 'abhor', [0,2,0,0,2])).toBeFalsy();
+                expect(scoreMakesSense('parer', 'abhor', [1,1,0,0,2])).toBeFalsy();
+                expect(scoreMakesSense('parer', 'abhor', [2,1,0,0,2])).toBeFalsy();
+                expect(scoreMakesSense('parer', 'abhor', [1,0,0,0,2])).toBeFalsy();
             })
         });
     });
     describe('full word list', () => {
-        describe('how many for grape', () => {
-            const currentWordList = WORDS.concat([]);
-            it('finds matches for grape', () => {
-                const wordList2 = evalPossibleWords('grape', [2, 2, 2, 2, 2], currentWordList)
-                expect(wordList2).toEqual(['drape', 'grace', 'grade', 'graph', 'grate', 'grave', 'graze', 'gripe', 'grope']);
-            });
-        });
         describe('updateSolver for miner', () => {
             const currentWordList = WORDS.concat([]);
             const solverData = getSolverData();
@@ -165,43 +159,43 @@ describe('solver tests', () => {
                 updateSolver(guesses, scores, solverData);
 
                 guesses.push('sauce');
-                scores.push([2, 0, 0, 0, 1]);
+                scores.push([0, 0, 0, 0, 1]);
                 updateSolver(guesses, scores, solverData);
                 expect(solverData.level).toEqual(1);
-                expect(solverData.possibleWordCounts[0]).toEqual(427);
-                expect(solverData.possibleWords.length).toBe(427);
+                expect(solverData.possibleWordCounts[0]).toEqual(259);
+                expect(solverData.possibleWords.length).toBe(259);
 
                 guesses.push('cause');
-                scores.push([0, 0, 1, 0, 1]);
+                scores.push([0, 0, 0, 0, 1]);
                 updateSolver(guesses, scores, solverData);
                 expect(solverData.level).toEqual(2);
-                expect(solverData.possibleWordCounts[1]).toEqual(263);
-                expect(solverData.possibleWords.length).toBe(263);
+                expect(solverData.possibleWordCounts[1]).toEqual(259);
+                expect(solverData.possibleWords.length).toBe(259);
                 expect(solverData.possibleWords).toContain('miner');
 
                 guesses.push('suite');
-                scores.push([0, 1, 1, 0, 1]);
+                scores.push([0, 0, 1, 0, 1]);
                 updateSolver(guesses, scores, solverData);
                 expect(solverData.level).toEqual(3);
                 expect(solverData.possibleWords.length).toBe(45);
                 expect(solverData.possibleWords).toContain('miner');
 
                 guesses.push('diner');
-                scores.push([0, 2, 0, 2, 2]);
+                scores.push([0, 2, 2, 2, 2]);
                 updateSolver(guesses, scores, solverData);
                 expect(solverData.level).toEqual(4);
-                expect(solverData.possibleWords.length).toBe(8);
+                expect(solverData.possibleWords.length).toBe(3);
                 expect(solverData.possibleWords).toContain('miner');
 
                 guesses.push('liner');
-                scores.push([0, 2, 2, 2, 1]);
+                scores.push([0, 2, 2, 2, 2]);
                 updateSolver(guesses, scores, solverData);
                 expect(solverData.level).toEqual(5);
                 expect(solverData.possibleWords.length).toBe(2);
                 expect(solverData.possibleWords).toContain('miner');
 
                 guesses.push('finer');
-                scores.push([1, 2, 2, 2, 2]);
+                scores.push([0, 2, 2, 2, 2]);
                 updateSolver(guesses, scores, solverData);
                 expect(solverData.level).toEqual(6);
                 expect(solverData.possibleWords.length).toBe(1);
