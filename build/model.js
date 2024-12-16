@@ -65,24 +65,24 @@ Model.prototype = {
                     hints.labels[0].textContent = `Hints are ${this.prefs.hints ? 'on' : 'off'}`;
                     hints.checked = this.prefs.hints;
                 }
-                if (!('showNumLeft' in this.prefs)) {
-                    this.prefs.showNumLeft = false; // they're opt-in
-                }
-                const showNumLeft = document.getElementById('toggle-num-left');
-                if (showNumLeft) {
-                    showNumLeft.labels[0].textContent = `Showing # possibilities is ${this.prefs.showNumLeft ? 'on' : 'off'}`;
-                    showNumLeft.checked = this.prefs.showNumLeft;
-                }
             }
         } catch {
             this.prefs = null;
         }
         if (!this.prefs) {
-            this.prefs = { theme: 'classic', hints: false }; // , hints: document.getElementById() };
+            this.prefs = { theme: 'classic', hints: false, showNumLeft: false }; // , hints: document.getElementById() };
             const hints = document.getElementById('toggle-hints');
             if (hints) {
                 hints.checked = false;
             }
+        }
+        if (!('showNumLeft' in this.prefs)) {
+            this.prefs.showNumLeft = false; // they're opt-in
+        }
+        const showNumLeft = document.getElementById('toggle-num-left');
+        if (showNumLeft) {
+            showNumLeft.labels[0].textContent = `Showing # possibilities is ${this.prefs.showNumLeft ? 'on' : 'off'}`;
+            showNumLeft.checked = this.prefs.showNumLeft;
         }
         try {
             const stats = JSON.parse(localStorage.getItem('stats'));
@@ -487,11 +487,11 @@ Model.prototype = {
         doFetch('toggleHintStatus', { date: this.saveableState.date, checked: value });
     },
     updateShowNumLeftStatus(showNumLeft) {
+        this.prefs.showNumLeft = showNumLeft;
         const sd = this.solverData;
         if (!sd || !sd.possibleWordCounts || sd.possibleWordCounts.length === 0) {
             return;
         }
-        this.prefs.showNumLeft = showNumLeft;
         // Need to do all rows
         for (let i = 0; i < sd.level; i++) {
             this.view.updateShowNumLeft(showNumLeft, i, sd.possibleWordCounts[i]);
